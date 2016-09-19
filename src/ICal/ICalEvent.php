@@ -27,4 +27,8 @@ class ICalEvent {
 		}
 	}
 
+	public function toArray() {
+		return (array) $this;
+	}
+
 }
