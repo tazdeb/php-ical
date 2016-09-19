@@ -35,4 +35,14 @@ class ICalEvent {
 		return json_encode($this, $options);
 	}
 
+	public function toICal() {
+		$str = "BEGIN:VEVENT\n";
+		foreach ($this as $key => $value) {
+			$keyEvent = ICalString::fromCamelCase($key);
+			$str .= strtoupper($keyEvent) .':' . str_replace("\n", '\n', $value) . "\n";
+		}
+		$str .= "END:VEVENT";
+		return $str;
+	}
+
 }
