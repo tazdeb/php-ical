@@ -4,25 +4,21 @@ namespace ICal;
 
 class ICalParser {
 
-
-	// Variables to stock some useful values
 	private $calendarFile = null;
 	private $calendarContent = null;
 
-
 	// Constructor
 	public function __construct($file = null) {
-		if($file) $this->calendarFile = $file;
+		if ($file) $this->calendarFile = $file;
 	}
-
 
 	// Read the content of a file
 	private function readFile($url) {
 		$file = @file_get_contents($url);
-		if($file) return $file;
+		if ($file) return $file;
 		else {
 			$file = @file_get_contents($url);
-			if($file) return $file;
+			if ($file) return $file;
 			else return null;
 		}
 	}
@@ -38,9 +34,9 @@ class ICalParser {
 			$eventText = preg_replace('/((\r?\n)|(\r\n?)) /', '', ICalString::cleanString($event));
 			$e = [];
 
-			foreach(preg_split("/((\r?\n)|(\r\n?))/s", $eventText) as $line){
+			foreach (preg_split("/((\r?\n)|(\r\n?))/s", $eventText) as $line) {
 
-				if(preg_match('/^[a-zA-Z]/', $line)) {
+				if (preg_match('/^[a-zA-Z]/', $line)) {
 					$parseLine = explode(':', $line);
 					$key = ICalString::toCamelCase(ICalString::cleanString($parseLine[0]));
 					unset($parseLine[0]);
@@ -57,21 +53,23 @@ class ICalParser {
 		return $r;
 	}
 
+	// set content
+	public function setContent($content) {
+		$this->calendarContent = $content;
+	}
+
 
 	// Get an array of all events
 	public function getEvents() {
-		if($this->calendarFile) {
+		if (!$this->calendarContent && $this->calendarFile) {
+			$this->calendarContent = $this->readFile($this->calendarFile);
+		}
 
-			if(!$this->calendarContent) {
-				$this->calendarContent = $this->readFile($this->calendarFile);
-			}
-
-			if($this->calendarContent) {
-				return $this->parseContent($this->calendarContent);
-			}
-
+		if ($this->calendarContent) {
+			return $this->parseContent($this->calendarContent);
+		} else {
+			return [];
 		}
 	}
-
 
 }
