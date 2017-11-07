@@ -33,14 +33,14 @@ class ICalParser {
 
 		foreach ($out[0] as $event) {
 
-			$eventText = preg_replace('/((\r?\n)|(\r\n?)) /', '', Strings::cleanString($event));
+			$eventText = preg_replace('/((\r?\n)|(\r\n?)) /', '', Strings::clean($event));
 			$e = [];
 
 			foreach (preg_split("/((\r?\n)|(\r\n?))/s", $eventText) as $line) {
 
 				if (preg_match('/^[a-zA-Z]/', $line)) {
 					$parseLine = explode(':', $line);
-					$key = Strings::toCamelCase(Strings::cleanString($parseLine[0]));
+					$key = Strings::toCamelCase(Strings::clean($parseLine[0]));
 					unset($parseLine[0]);
 					$val = implode(':', $parseLine);
 					$val = str_replace('\n', "\n", $val);
