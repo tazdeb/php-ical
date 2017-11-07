@@ -11,7 +11,8 @@
         }
     ],
     "require": {
-        "php": "^7.0"
+        "php": "^7.0",
+        "ludovicm67/strings": "^1.0"
     },
     "autoload": {
         "psr-0": {

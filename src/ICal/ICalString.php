@@ -1,5 +1,7 @@
 <?php
 
+// DEPRECATED: will be removed soon
+
 namespace ICal;
 
 class ICalString {

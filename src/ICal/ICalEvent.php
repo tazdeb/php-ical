@@ -2,6 +2,8 @@
 
 namespace ICal;
 
+use ludovicm67\Strings\Strings;
+
 class ICalEvent {
 
 	public $dtstamp;
@@ -21,7 +23,7 @@ class ICalEvent {
 		}
 		if($init && is_array($init)) {
 			foreach ($init as $key => $value) {
-				$var = IcalString::toCamelCase($key);
+				$var = Strings::toCamelCase($key);
 				$this->{$var} = $value;
 			}
 		}
@@ -31,14 +33,14 @@ class ICalEvent {
 		return (array) $this;
 	}
 
-	public function toJson($options = JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) {
+	public function toJSON($options = JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) {
 		return json_encode($this, $options);
 	}
 
 	public function toICal() {
 		$str = "BEGIN:VEVENT\n";
 		foreach ($this as $key => $value) {
-			$keyEvent = ICalString::fromCamelCase($key);
+			$keyEvent = Strings::fromCamelCase($key);
 			$str .= strtoupper($keyEvent) .':' . str_replace("\n", '\n', $value) . "\n";
 		}
 		$str .= "END:VEVENT";
